@@ -1,6 +1,5 @@
 # Import python packages
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col,when_matched
 
 # Write directly to the app
@@ -18,6 +17,8 @@ st.write(
 
 #st.write("Your favourite fruit is:", option);
 
+cnx = st.connection("snowflake")
+session = cnx.session()
 
 name_on_order = st.text_input("Name of Smoothie:")
 st.write("The name of your smoothie will be: ", name_on_order)
@@ -44,5 +45,3 @@ if ingredients_list :
     if ingredients_string and time_to_insert:
         session.sql(my_insert_stmt).collect()
         st.success('Your Smoothie is ordered! ' + name_on_order, icon="✅")
-
-
